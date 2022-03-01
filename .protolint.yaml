@@ -1,0 +1,6 @@
+---
+lint:
+  directories:
+    exclude:
+      - proto/google
+      - proto/validate

@@ -1,0 +1,109 @@
+syntax = "proto3";
+
+package task.v1;
+
+import "google/api/annotations.proto";
+import "validate/validate.proto";
+
+option go_package = "github.com/greendrop/todo-grpc-go-sample/proto_task_v1";
+
+service TaskService {
+  rpc GetTaskList(GetTaskListRequest) returns (GetTaskListResponse) {
+    option (google.api.http) = {
+      get: "/v1/tasks"
+    };
+  }
+  rpc GetTask(GetTaskRequest) returns (GetTaskResponse) {
+    option (google.api.http) = {
+      get: "/v1/tasks/{id}"
+    };
+  };
+  rpc CreateTask(CreateTaskRequest) returns (CreateTaskResponse) {
+    option (google.api.http) = {
+      post: "/v1/tasks"
+      body: "*"
+    };
+  };
+  rpc UpdateTask(UpdateTaskRequest) returns (UpdateTaskResponse) {
+    option (google.api.http) = {
+      patch: "/v1/tasks/{id}"
+      body: "*"
+    };
+  };
+  rpc DeleteTask(DeleteTaskRequest) returns (DeleteTaskResponse) {
+    option (google.api.http) = {
+      delete: "/v1/tasks/{id}"
+    };
+  };
+}
+
+message GetTaskListRequest {
+  optional int32 page = 1;
+  optional int32 per_page = 2;
+}
+
+message GetTaskListResponse {
+  message Task {
+    int64 id = 1;
+    optional string title = 2;
+    optional string description = 3;
+    bool done = 4;
+    string created_at = 5;
+    string updated_at = 6;
+  }
+
+  repeated Task tasks = 1;
+}
+
+message GetTaskRequest {
+  int64 id = 1;
+}
+
+message GetTaskResponse {
+  int64 id = 1;
+  optional string title = 2;
+  optional string description = 3;
+  bool done = 4;
+  string created_at = 5;
+  string updated_at = 6;
+}
+
+message CreateTaskRequest {
+  optional string title = 1 [
+    (validate.rules).string = {min_len: 1, max_len: 255}
+  ];
+  optional string description = 2;
+  bool done = 3;
+}
+
+message CreateTaskResponse {
+  int64 id = 1;
+  optional string title = 2;
+  optional string description = 3;
+  bool done = 4;
+  string created_at = 5;
+  string updated_at = 6;
+}
+
+message UpdateTaskRequest {
+  int64 id = 1;
+  optional string title = 2;
+  optional string description = 3;
+  bool done = 4;
+}
+
+message UpdateTaskResponse {
+  int64 id = 1;
+  optional string title = 2;
+  optional string description = 3;
+  bool done = 4;
+  string created_at = 5;
+  string updated_at = 6;
+}
+
+message DeleteTaskRequest {
+  int64 id = 1;
+}
+
+message DeleteTaskResponse {
+}

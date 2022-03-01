@@ -1,0 +1,7 @@
+bin/*
+
+# configs
+configs/app_config.development.toml
+
+# Mac
+.DS_Store

@@ -1,0 +1,3 @@
+[server]
+grpc_port = "8080"
+grpc_gateway_port = "8090"
